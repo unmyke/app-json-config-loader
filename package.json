@@ -1,0 +1,88 @@
+{
+  "name": "app-json-config-loader",
+  "version": "1.0.0",
+  "description": "Application json files stored config loader for webpack",
+  "repository": "https://github.com/unmyke/app-json-config-loader.git",
+  "author": "unmyke <unmyke@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">= 6.9.0 || >= 8.9.0"
+  },
+  "scripts": {
+    "start": "yarn run build -- -w",
+    "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js' --copy-files",
+    "clean": "del-cli dist",
+    "commitlint": "commitlint",
+    "lint": "eslint --cache src",
+    "ci:lint:commits": "commitlint --from=${CIRCLE_BRANCH} --to=${CIRCLE_SHA1}",
+    "lint-staged": "lint-staged",
+    "prebuild": "yarn run clean",
+    "prepublish": "yarn run build",
+    "release": "standard-version",
+    "release:ci": "conventional-github-releaser -p angular",
+    "release:validate": "commitlint --from=$(git describe --tags --abbrev=0) --to=$(git rev-parse HEAD)",
+    "security": "yarn run audit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --collectCoverageFrom='src/**/*.js' --coverage",
+    "ci:lint": "yarn run lint && yarn run security",
+    "ci:test": "yarn run test -- --runInBand",
+    "ci:coverage": "yarn run test:coverage -- --runInBand",
+    "defaults": "webpack-defaults",
+    "webpack-defaults": "webpack-defaults"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "json"
+  ],
+  "peerDependencies": {
+    "webpack": "^2.0.0 || ^3.0.0 || ^4.0.0"
+  },
+  "dependencies": {
+    "get-json-config": "^0.3.4",
+    "loader-utils": "^1.2.3",
+    "schema-utils": "^2.6.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.7.7",
+    "@babel/plugin-transform-async-to-generator": "^7.7.4",
+    "@babel/plugin-transform-regenerator": "^7.7.5",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.7",
+    "@commitlint/cli": "^8.3.4",
+    "@commitlint/config-angular": "^8.3.4",
+    "@webpack-contrib/eslint-config-webpack": "^3.0.0",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
+    "conventional-github-releaser": "^3.1.3",
+    "core-js": "^3.6.2",
+    "cross-env": "^6.0.3",
+    "del": "^5.1.0",
+    "del-cli": "^3.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-webpack": "^1.2.5",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.0.6",
+    "inspect-loader": "^1.0.0",
+    "jest": "^24.9.0",
+    "jest-plugin-context": "^2.9.0",
+    "lint-staged": "^9.5.0",
+    "memory-fs": "^0.5.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.19.1",
+    "standard-version": "^7.0.1",
+    "webpack": "^4.41.5"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  }
+}
